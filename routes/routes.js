@@ -24,7 +24,22 @@ app.delete("/api/notes/:id", function (req, res) {
     fs.writeFileSync("./db/db.json", JSON.stringify(notes), function (err) {
         if (err) throw err;
     });
-    res.json({ deletion: "note deleted successfully" });
+    res.json({ deletion: "note has been deleted" });
 });
 
+const readNotes = fs.readFileSync("./db/db.json", "UTF-8");
+
+if (readNotes) {
+    const previousNotes = JSON.parse(readNotes);
+    notes = previousNotes;
+} else {
+    notes = [];
+}
+
+function notesId() {
+    for (i = 0; i < notes.length; i++) {
+        notes[i].id = i;
+    }
+}
+;
 module.exports = { app }
