@@ -16,4 +16,15 @@ app.post("/api/notes", function (req, res) {
     });
 });
 
+app.delete("/api/notes/:id", function (req, res) {
+    let deleteID = req.params.id;
+    let deletedNote = notes.splice(deleteID, 1);
+    console.log("note deleted", deletedNote);
+    notesId();
+    fs.writeFileSync("./db/db.json", JSON.stringify(notes), function (err) {
+        if (err) throw err;
+    });
+    res.json({ deletion: "note deleted successfully" });
+});
+
 module.exports = { app }
